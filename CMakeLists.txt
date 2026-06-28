@@ -13,6 +13,7 @@ add_compile_options(-Wall -Wextra)
 
 add_executable(sealisp
   src/main.c
+  src/trie.c
   src/value.c
   src/env.c
   src/reader.c

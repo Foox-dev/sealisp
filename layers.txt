@@ -1,0 +1,21 @@
+Layer 1 — Trie substrate (src/trie.h, src/trie.c)
+- trie_node_t: bitmap, refcount, kind, slots[]
+- Node alloc, retain, release (the path-copy discipline lives here)
+- This is the shared base for everything below
+
+Layer 2 — Data structures (on top of the trie node)
+- Vector-trie: push, index-get, tail buffer (→ lists and vectors)
+- HAMT: lookup, insert with path-copy, collision nodes (→ maps, environments)
+- List view: (root, shift, offset, length) — cons/car/cdr as described
+
+Layer 3 — Value system update
+- Add refcount to value_t, swap cons cells for list views, add vector/map types
+- Update constructors + retain/release discipline everywhere
+
+Layer 4 — Environments
+- Global env → HAMT (symbol → value)
+- Local frames → vector-trie (positional, feeds lexical addressing)
+
+Layer 5 — Lambda calculus features
+- Currying: desugar multi-arg lambda/application at eval time
+- Lexical addressing: resolve to (depth, index) when a lambda is closed over
